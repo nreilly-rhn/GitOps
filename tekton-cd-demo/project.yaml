@@ -1,0 +1,6 @@
+kind: Project
+metadata:
+  name: demo-dev
+  annotations:
+    openshift.io/description: "Project for Pipelines Demo Dev"
+    openshift.io/display-name: "demo-dev"
