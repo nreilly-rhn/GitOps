@@ -3,6 +3,8 @@ kind: OperatorGroup
 metadata:
   name: openshift-operators
   namespace: openshift-operators-redhat
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec: {}
 ---
 apiVersion: operators.coreos.com/v1alpha1
