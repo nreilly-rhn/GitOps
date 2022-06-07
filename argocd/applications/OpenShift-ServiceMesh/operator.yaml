@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: elastic-operator
+  name: openshift-servicemesh
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -20,4 +20,3 @@ spec:
       selfHeal: false
     syncOptions:
     - CreateNamespace=true
-
