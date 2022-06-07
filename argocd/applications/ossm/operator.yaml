@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: Service-Mesh
+  name: service-mesh
   namespace: openshift-gitops
 spec:
   destination:
