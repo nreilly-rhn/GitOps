@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: openshift-distributed-tracing
     server: https://kubernetes.default.svc
-  project: default
+  project: openshift-servicemesh
   source:
     path: operators/jaeger/overlays
     repoURL: https://github.com/nreilly-rhn/GitOps

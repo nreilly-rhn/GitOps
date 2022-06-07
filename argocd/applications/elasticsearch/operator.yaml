@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: openshift-operators-redhat
     server: https://kubernetes.default.svc
-  project: default
+  project: openshift-servicemesh
   source:
     path: operators/elasticsearch/overlays
     repoURL: https://github.com/nreilly-rhn/GitOps
