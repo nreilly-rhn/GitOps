@@ -1,4 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: openshift-servicemesh
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Deploy Operators for OpenShift ServiceMesh
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: openshift-servicemesh
