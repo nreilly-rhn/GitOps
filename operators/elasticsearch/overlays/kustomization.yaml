@@ -1,3 +1,6 @@
 namespace: openshift-operators-redhat
 resources:
-- ../base
+- ../../elasticsearch/base
+- ../../jaeger/base
+- ../../kiali/base
+- ../../ossm/base
