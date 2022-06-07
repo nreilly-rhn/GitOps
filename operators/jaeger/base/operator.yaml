@@ -3,6 +3,8 @@ kind: Subscription
 metadata:
   labels:
     operators.coreos.com/jaeger-product.openshift-distributed-tracing: ""
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: jaeger-product
   namespace: openshift-distributed-tracing
 spec:
