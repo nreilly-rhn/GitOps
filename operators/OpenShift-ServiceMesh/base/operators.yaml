@@ -3,7 +3,6 @@ kind: OperatorGroup
 metadata:
   annotations:
     olm.providedAPIs: Jaeger.v1.jaegertracing.io
-    argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/sync-wave: "0"
   name: openshift-distributed-tracing
   namespace: openshift-distributed-tracing
@@ -14,7 +13,6 @@ kind: OperatorGroup
 metadata:
   annotations:
     olm.providedAPIs: Elasticsearch.v1.logging.openshift.io,Kibana.v1.logging.openshift.io
-    argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/sync-wave: "0"
   name: openshift-operators-redhat
   namespace: openshift-operators-redhat
@@ -26,7 +24,6 @@ metadata:
   labels:
     operators.coreos.com/elasticsearch-operator.openshift-operators-redhat: ''
   annotations:
-    argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/sync-wave: "1"
   name: elasticsearch-operator
   namespace: openshift-operators-redhat
@@ -43,7 +40,6 @@ metadata:
   labels:
     operators.coreos.com/jaeger-product.openshift-distributed-tracing: ""
   annotations:
-    argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/sync-wave: "2"
   name: jaeger-product
   namespace: openshift-distributed-tracing
@@ -60,7 +56,6 @@ metadata:
   labels:
     operators.coreos.com/kiali-ossm.openshift-operators: ""
   annotations:
-    argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/sync-wave: "3"
   name: kiali-ossm
   namespace: openshift-operators
@@ -77,7 +72,6 @@ metadata:
   labels:
     operators.coreos.com/servicemeshoperator.openshift-operators: ""
   annotations:
-    argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/sync-wave: "4"
   name: servicemeshoperator
   namespace: openshift-operators
