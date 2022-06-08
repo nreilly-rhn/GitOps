@@ -1,7 +1,7 @@
 resources:
-- ../../operatorgroups/base
-- ../../elasticsearch/base
-- ../../jaeger/base
-- ../../kiali/base
-- ../../ossm/base
+- operators.yaml
+#- ../../elasticsearch/base
+#- ../../jaeger/base
+#- ../../kiali/base
+#- ../../ossm/base
 
