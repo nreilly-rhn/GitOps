@@ -4,7 +4,7 @@ metadata:
   annotations:
     olm.providedAPIs: Jaeger.v1.jaegertracing.io
     argocd.argoproj.io/sync-wave: "0"
-  generateName: openshift-distributed-tracing-
+  name: openshift-distributed-tracing
   namespace: openshift-distributed-tracing
 spec: {}
 ---
@@ -14,6 +14,6 @@ metadata:
   annotations:
     olm.providedAPIs: Elasticsearch.v1.logging.openshift.io,Kibana.v1.logging.openshift.io
     argocd.argoproj.io/sync-wave: "0"
-  generateName: openshift-operators-redhat-
+  name: openshift-operators-redhat
   namespace: openshift-operators-redhat
 spec: {}
