@@ -25,7 +25,7 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: openshift-operators-redhat
+#    namespace: openshift-operators-redhat
     server: https://kubernetes.default.svc
   project: openshift-servicemesh
   source:
