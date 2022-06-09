@@ -102,15 +102,16 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: istio-system
   labels:
     kubernetes.io/metadata.name: istio-system
   annotations:
     argocd.argoproj.io/sync-wave: "4"
-  name: istio-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  name: openshift-gitops-openshift-gitops-argocd-application-controller-maistra
   labels:
     name: openshift-gitops-openshift-gitops-argocd-application-controller-maistra
   annotations:
