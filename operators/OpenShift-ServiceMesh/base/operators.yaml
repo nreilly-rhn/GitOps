@@ -7,6 +7,15 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
   name: openshift-operators-redhat
 ---
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  labels:
+    kubernetes.io/metadata.name: openshift-distributed-tracing
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: openshift-distributed-tracing
+---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
