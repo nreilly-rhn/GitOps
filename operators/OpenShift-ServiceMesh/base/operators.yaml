@@ -112,7 +112,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-  name: openshift-gitops-openshift-gitops-argocd-application-controller-maistra
+    name: openshift-gitops-openshift-gitops-argocd-application-controller-maistra
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
 rules:
 - apiGroups:
   - 'maistra.io'
@@ -125,6 +127,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: openshift-gitops-openshift-gitops-argocd-application-controller-maistra
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
