@@ -1,19 +1,19 @@
 apiVersion: project.openshift.io/v1
-kind: Project
+kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: openshift-operators-redhat
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-1"
   name: openshift-operators-redhat
 ---
 apiVersion: project.openshift.io/v1
-kind: Project
+kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: openshift-distributed-tracing
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-1"
   name: openshift-distributed-tracing
 ---
 apiVersion: operators.coreos.com/v1
