@@ -99,11 +99,22 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: istio-system
+---
 apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
   name: basic
   namespace: istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   version: v2.1
   tracing:
