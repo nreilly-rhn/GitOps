@@ -18,7 +18,7 @@ fi
 
 until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops -n openshift-gitops &> /dev/null; do
   echo "Waiting for default ArgoCD Instance to start"
-  sleep 5
+  sleep 10
 done
 
 oc create -f argocd/applications/OpenShift-ServiceMesh/config.yaml
