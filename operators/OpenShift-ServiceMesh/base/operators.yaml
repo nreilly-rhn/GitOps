@@ -124,41 +124,41 @@ rules:
   verbs:
   - '*'
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: openshift-gitops-argocd-application-controller-maistra
-  annotations:
-    argocd.argoproj.io/sync-wave: "4"
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: openshift-gitops-argocd-application-controller-maistra
-subjects:
-- kind: ServiceAccount
-  name: openshift-gitops-argocd-application-controller
-  namespace: openshift-gitops
----
-apiVersion: maistra.io/v2
-kind: ServiceMeshControlPlane
-metadata:
-  name: basic
-  namespace: istio-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "4"
-spec:
-  version: v2.1
-  tracing:
-    type: Jaeger
-    sampling: 10000
-  addons:
-    jaeger:
-      name: jaeger
-      install:
-        storage:
-          type: Memory
-    kiali:
-      enabled: true
-      name: kiali
-    grafana:
-      enabled: true
+#apiVersion: rbac.authorization.k8s.io/v1
+#kind: ClusterRoleBinding
+#metadata:
+#  name: openshift-gitops-argocd-application-controller-maistra
+#  annotations:
+#    argocd.argoproj.io/sync-wave: "4"
+#roleRef:
+#  apiGroup: rbac.authorization.k8s.io
+#  kind: ClusterRole
+#  name: openshift-gitops-argocd-application-controller-maistra
+#subjects:
+#- kind: ServiceAccount
+#  name: openshift-gitops-argocd-application-controller
+#  namespace: openshift-gitops
+#---
+#apiVersion: maistra.io/v2
+#kind: ServiceMeshControlPlane
+#metadata:
+#  name: basic
+#  namespace: istio-system
+#  annotations:
+#    argocd.argoproj.io/sync-wave: "4"
+#spec:
+#  version: v2.1
+#  tracing:
+#    type: Jaeger
+#    sampling: 10000
+#  addons:
+#    jaeger:
+#      name: jaeger
+#      install:
+#        storage:
+#          type: Memory
+#    kiali:
+#      enabled: true
+#      name: kiali
+#    grafana:
+#      enabled: true
