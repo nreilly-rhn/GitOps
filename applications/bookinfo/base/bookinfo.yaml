@@ -1,100 +1,320 @@
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  name: default
+spec:
+  members:
+  - bookinfo
+---
 apiVersion: v1
-kind: Namespace
+kind: Service
 metadata:
+  name: details
   labels:
-    kubernetes.io/metadata.name: openshift-operators-redhat
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-  name: openshift-operators-redhat
+    app: details
+    service: details
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: details
 ---
 apiVersion: v1
-kind: Namespace
+kind: ServiceAccount
 metadata:
+  name: bookinfo-details
   labels:
-    kubernetes.io/metadata.name: openshift-distributed-tracing
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-  name: openshift-distributed-tracing
+    account: details
 ---
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  annotations:
-    olm.providedAPIs: Elasticsearch.v1.logging.openshift.io,Kibana.v1.logging.openshift.io
-    argocd.argoproj.io/sync-wave: "0"
-  name: openshift-operators-redhat
-  namespace: openshift-operators-redhat
-spec: {}
----
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  annotations:
-    olm.providedAPIs: Jaeger.v1.jaegertracing.io
-    argocd.argoproj.io/sync-wave: "0"
-  name: openshift-distributed-tracing
-  namespace: openshift-distributed-tracing
-spec: {}
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
+  name: details-v1
   labels:
-    operators.coreos.com/elasticsearch-operator.openshift-operators-redhat: ''
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  name: elasticsearch-operator
-  namespace: openshift-operators-redhat
+    app: details
+    version: v1
 spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: elasticsearch-operator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  replicas: 1
+  selector:
+    matchLabels:
+      app: details
+      version: v1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: details
+        version: v1
+    spec:
+      serviceAccountName: bookinfo-details
+      containers:
+      - name: details
+        image: quay.io/maistra/examples-bookinfo-details-v1:2.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
 ---
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
+##################################################################################################
+# Ratings service
+##################################################################################################
+apiVersion: v1
+kind: Service
 metadata:
+  name: ratings
   labels:
-    operators.coreos.com/jaeger-product.openshift-distributed-tracing: ""
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-  name: jaeger-product
-  namespace: openshift-distributed-tracing
+    app: ratings
+    service: ratings
 spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: jaeger-product
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: ratings
 ---
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
+apiVersion: v1
+kind: ServiceAccount
 metadata:
+  name: bookinfo-ratings
   labels:
-    operators.coreos.com/kiali-ossm.openshift-operators: ""
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-  name: kiali-ossm
-  namespace: openshift-operators
-spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: kiali-ossm
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+    account: ratings
 ---
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
+apiVersion: apps/v1
+kind: Deployment
 metadata:
+  name: ratings-v1
   labels:
-    operators.coreos.com/servicemeshoperator.openshift-operators: ""
-  annotations:
-    argocd.argoproj.io/sync-wave: "4"
-  name: servicemeshoperator
-  namespace: openshift-operators
+    app: ratings
+    version: v1
 spec:
-  channel: stable
-  name: servicemeshoperator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ratings
+      version: v1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: ratings
+        version: v1
+    spec:
+      serviceAccountName: bookinfo-ratings
+      containers:
+      - name: ratings
+        image: quay.io/maistra/examples-bookinfo-ratings-v1:2.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+---
+##################################################################################################
+# Reviews service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews
+  labels:
+    app: reviews
+    service: reviews
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bookinfo-reviews
+  labels:
+    account: reviews
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews-v1
+  labels:
+    app: reviews
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews
+      version: v1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: reviews
+        version: v1
+    spec:
+      serviceAccountName: bookinfo-reviews
+      containers:
+      - name: reviews
+        image: quay.io/maistra/examples-bookinfo-reviews-v1:2.1.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: wlp-output
+          mountPath: /opt/ibm/wlp/output
+      volumes:
+      - name: wlp-output
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews-v2
+  labels:
+    app: reviews
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews
+      version: v2
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: reviews
+        version: v2
+    spec:
+      serviceAccountName: bookinfo-reviews
+      containers:
+      - name: reviews
+        image: quay.io/maistra/examples-bookinfo-reviews-v2:2.1.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: wlp-output
+          mountPath: /opt/ibm/wlp/output
+      volumes:
+      - name: wlp-output
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews-v3
+  labels:
+    app: reviews
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews
+      version: v3
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: reviews
+        version: v3
+    spec:
+      serviceAccountName: bookinfo-reviews
+      containers:
+      - name: reviews
+        image: quay.io/maistra/examples-bookinfo-reviews-v3:2.1.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: wlp-output
+          mountPath: /opt/ibm/wlp/output
+      volumes:
+      - name: wlp-output
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+---
+##################################################################################################
+# Productpage services
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: productpage
+  labels:
+    app: productpage
+    service: productpage
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: productpage
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bookinfo-productpage
+  labels:
+    account: productpage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productpage-v1
+  labels:
+    app: productpage
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productpage
+      version: v1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: productpage
+        version: v1
+    spec:
+      serviceAccountName: bookinfo-productpage
+      containers:
+      - name: productpage
+        image: quay.io/maistra/examples-bookinfo-productpage-v1:2.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}
+---

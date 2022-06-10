@@ -3,8 +3,6 @@ kind: Subscription
 metadata:
   labels:
     operators.coreos.com/kiali-ossm.openshift-operators: ""
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
   name: kiali-ossm
   namespace: openshift-operators
 spec:

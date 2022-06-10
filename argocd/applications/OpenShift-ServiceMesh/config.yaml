@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: openshift-servicemesh
   namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -19,17 +21,86 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-servicemesh
+  name: elasticsearch
   namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-#    namespace: openshift-operators-redhat
     server: https://kubernetes.default.svc
-  project: openshift-servicemesh
   source:
-    path: operators/OpenShift-ServiceMesh/base
+    path: operators/elasticsearch/base
+    repoURL: https://github.com/nreilly-rhn/GitOps
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jaeger
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    path: operators/jaeger/base
+    repoURL: https://github.com/nreilly-rhn/GitOps
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    path: operators/kiali/base
+    repoURL: https://github.com/nreilly-rhn/GitOps
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: servicemesh
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    path: operators/servicemesh/base
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
