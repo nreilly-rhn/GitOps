@@ -28,7 +28,9 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
+  project: openshift-servicemesh
   destination:
+  namespace: openshift-gitops
     server: https://kubernetes.default.svc
   source:
     path: operators/elasticsearch/base
