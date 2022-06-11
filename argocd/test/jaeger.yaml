@@ -1,18 +1,10 @@
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  annotations:
-    olm.providedAPIs: Jaeger.v1.jaegertracing.io
-    argocd.argoproj.io/sync-wave: "0"
-  name: openshift-distributed-tracing
-  namespace: openshift-distributed-tracing
-spec: {}
----
 apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: openshift-distributed-tracing
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   name: openshift-distributed-tracing
 ---
 apiVersion: operators.coreos.com/v1

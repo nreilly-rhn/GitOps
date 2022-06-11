@@ -1,0 +1,72 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    operators.coreos.com/servicemeshoperator.openshift-operators: ""
+  name: servicemeshoperator
+  namespace: openshift-operators
+spec:
+  channel: stable
+  name: servicemeshoperator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+#---
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name: istio-system
+#  labels:
+#    kubernetes.io/metadata.name: istio-system
+#---
+#apiVersion: rbac.authorization.k8s.io/v1
+#kind: ClusterRole
+#metadata:
+#  name: openshift-gitops-argocd-application-controller-maistra
+#  labels:
+#    name: openshift-gitops-argocd-application-controller-maistra
+#rules:
+#- apiGroups:
+#  - 'maistra.io'
+#  resources:
+#  - '*'
+#  verbs:
+#  - '*'
+#---
+#apiVersion: rbac.authorization.k8s.io/v1
+#kind: ClusterRoleBinding
+#metadata:
+#  name: openshift-gitops-argocd-application-controller-maistra
+#  annotations:
+#    argocd.argoproj.io/sync-wave: "4"
+#roleRef:
+#  apiGroup: rbac.authorization.k8s.io
+#  kind: ClusterRole
+#  name: openshift-gitops-argocd-application-controller-maistra
+#subjects:
+#- kind: ServiceAccount
+#  name: openshift-gitops-argocd-application-controller
+#  namespace: openshift-gitops
+#---
+#apiVersion: maistra.io/v2
+#kind: ServiceMeshControlPlane
+#metadata:
+#  name: basic
+#  namespace: istio-system
+#  annotations:
+#    argocd.argoproj.io/sync-wave: "4"
+#spec:
+#  version: v2.1
+#  tracing:
+#    type: Jaeger
+#    sampling: 10000
+#  addons:
+#    jaeger:
+#      name: jaeger
+#      install:
+#        storage:
+#          type: Memory
+#    kiali:
+#      enabled: true
+#      name: kiali
+#    grafana:
+#      enabled: true

@@ -32,7 +32,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: test/
+    path: argocd/test/
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:

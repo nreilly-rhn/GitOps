@@ -1,18 +1,10 @@
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  annotations:
-    olm.providedAPIs: Elasticsearch.v1.logging.openshift.io,Kibana.v1.logging.openshift.io
-    argocd.argoproj.io/sync-wave: "0"
-  name: openshift-operators-redhat
-  namespace: openshift-operators-redhat
-spec: {}
----
 apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: openshift-operators-redhat
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   name: openshift-operators-redhat
 ---
 apiVersion: operators.coreos.com/v1
