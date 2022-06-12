@@ -16,6 +16,21 @@ spec:
   - group: '*'
     kind: '*'
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: bookinfo
+  name: bookinfo
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  name: default
+spec:
+  members:
+  - bookinfo
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -25,16 +40,15 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-#    namespace: openshift-operators-redhat
     server: https://kubernetes.default.svc
   project: bookinfo
   source:
-    path: applications/bookinfo/base
-    repoURL: https://github.com/nreilly-rhn/GitOps
+    path: istio/maistra-2.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    repoURL: https://github.com//Maistra
     targetRevision: main
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: false
-    syncOptions:
-    - CreateNamespace=true
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: false
+#    syncOptions:
+#    - CreateNamespace=true
