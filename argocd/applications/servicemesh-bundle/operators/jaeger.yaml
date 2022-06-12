@@ -12,7 +12,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: operators/jaeger/base
+    path: argocd/applications/servicemesh-bundle/operators/jaeger/base
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:

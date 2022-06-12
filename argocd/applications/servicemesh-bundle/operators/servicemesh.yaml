@@ -12,7 +12,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: operators/servicemesh/base
+    path: argocd/applications/servicemesh-bundle/operators/servicemesh/base
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
