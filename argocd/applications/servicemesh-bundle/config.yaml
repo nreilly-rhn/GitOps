@@ -32,7 +32,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: argocd/test
+    path: argocd/applications/servicemesh-bundle/operators
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
