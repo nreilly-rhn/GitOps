@@ -43,8 +43,8 @@ spec:
     server: https://kubernetes.default.svc
   project: bookinfo
   source:
-    path: istio/maistra-2.1/samples/bookinfo/platform/kube/bookinfo.yaml
-    repoURL: https://github.com//Maistra
+    path: argocd/applications/BookInfo
+    repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
 #  syncPolicy:
 #    automated:
