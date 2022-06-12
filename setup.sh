@@ -21,7 +21,7 @@ until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops 
   sleep 10
 done
 
-oc create -f argocd/applications/OpenShift-ServiceMesh/config.yaml
+oc create -f argocd/applications/openshift-bundle/config.yaml
 
 
 # # {"apiGroups": ["machine.openshift.io"], "resources": ["*"], "verbs":["*"]},
