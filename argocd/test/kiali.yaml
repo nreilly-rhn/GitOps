@@ -1,13 +1,23 @@
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  labels:
-    operators.coreos.com/kiali-ossm.openshift-operators: ""
-  name: kiali-ossm
-  namespace: openshift-operators
+  name: kiali-operator
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: kiali-ossm
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  project: openshift-servicemesh
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    path: argocd/operators/kiali/base
+    repoURL: https://github.com/nreilly-rhn/GitOps
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
