@@ -31,6 +31,14 @@ spec:
   members:
   - bookinfo
 ---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  name: default
+spec:
+  members:
+  - bookinfo
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
