@@ -15,9 +15,9 @@ spec:
     path: argocd/applications/servicemesh-bundle/operators/elasticsearch/base
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: false
-    syncOptions:
-    - CreateNamespace=true
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: false
+#    syncOptions:
+#    - CreateNamespace=true
