@@ -4,7 +4,7 @@ metadata:
   name: jaeger-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,7 +12,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: argocd/operators/jaeger/base
+    path: operators/jaeger/base
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
