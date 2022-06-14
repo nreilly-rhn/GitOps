@@ -4,7 +4,7 @@ metadata:
   name: jaeger-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-80"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
