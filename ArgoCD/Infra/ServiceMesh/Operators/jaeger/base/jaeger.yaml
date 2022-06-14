@@ -3,8 +3,6 @@ kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: openshift-distributed-tracing
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
   name: openshift-distributed-tracing
 ---
 apiVersion: operators.coreos.com/v1
