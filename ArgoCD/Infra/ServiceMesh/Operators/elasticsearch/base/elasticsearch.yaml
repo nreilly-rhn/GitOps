@@ -3,6 +3,8 @@ kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: openshift-operators-redhat
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   name: openshift-operators-redhat
 ---
 apiVersion: operators.coreos.com/v1
@@ -10,6 +12,8 @@ kind: OperatorGroup
 metadata:
   annotations:
     olm.providedAPIs: Elasticsearch.v1.logging.openshift.io,Kibana.v1.logging.openshift.io
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   name: openshift-operators-redhat
   namespace: openshift-operators-redhat
 spec: {}
@@ -19,6 +23,8 @@ kind: Subscription
 metadata:
   labels:
     operators.coreos.com/elasticsearch-operator.openshift-operators-redhat: ''
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   name: elasticsearch-operator
   namespace: openshift-operators-redhat
 spec:
