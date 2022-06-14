@@ -4,7 +4,7 @@ metadata:
   labels:
     operators.coreos.com/servicemeshoperator.openshift-operators: ""
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "4"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
   name: servicemeshoperator
@@ -18,6 +18,8 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   name: istio-system
   labels:
     kubernetes.io/metadata.name: istio-system
@@ -25,6 +27,8 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   name: openshift-gitops-argocd-application-controller-maistra
   labels:
     name: openshift-gitops-argocd-application-controller-maistra
@@ -59,7 +63,7 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   version: v2.1
   tracing:
