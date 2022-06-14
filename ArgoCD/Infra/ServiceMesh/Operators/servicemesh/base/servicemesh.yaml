@@ -28,8 +28,6 @@ metadata:
   name: openshift-gitops-argocd-application-controller-maistra
   labels:
     name: openshift-gitops-argocd-application-controller-maistra
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
 rules:
 - apiGroups:
   - 'maistra.io'
@@ -44,8 +42,6 @@ metadata:
   name: openshift-gitops-argocd-application-controller-maistra
   annotations:
     argocd.argoproj.io/sync-wave: "4"
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
