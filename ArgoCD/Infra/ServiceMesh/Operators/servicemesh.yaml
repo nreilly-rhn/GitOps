@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "-90"
+    argocd.argoproj.io/sync-wave: "-4"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -28,7 +28,7 @@ metadata:
   name: jaeger-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "-80"
+    argocd.argoproj.io/sync-wave: "-3"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -52,7 +52,7 @@ metadata:
   name: kiali-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "-70"
+    argocd.argoproj.io/sync-wave: "-2"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -76,7 +76,7 @@ metadata:
   name: servicemesh-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "-60"
+    argocd.argoproj.io/sync-wave: "-1"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
