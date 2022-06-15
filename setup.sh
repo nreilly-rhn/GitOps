@@ -17,17 +17,17 @@ spec:
 fi
 sleep 30
 
-oc patch argocd -n openshift-gitops openshift-gitops --type merge -p='{"spec": {"resourceCustomizations": "argoproj.io/Application:\n  health.lua: |\n    hs = {}\n    hs.status = \"Progressing\"\n    hs.message = \"\"\n    if obj.status ~= nil then\n      if obj.status.health ~= nil then\n        hs.status = obj.status.health.status\n        if obj.status.health.message ~= nil then\n          hs.message = obj.status.health.message\n        end\n      end\n    end\n    return hs\n" }}'
+until oc patch argocd -n openshift-gitops openshift-gitops --type merge -p='{"spec": {"resourceCustomizations": "argoproj.io/Application:\n  health.lua: |\n    hs = {}\n    hs.status = \"Progressing\"\n    hs.message = \"\"\n    if obj.status ~= nil then\n      if obj.status.health ~= nil then\n        hs.status = obj.status.health.status\n        if obj.status.health.message ~= nil then\n          hs.message = obj.status.health.message\n        end\n      end\n    end\n    return hs\n" }}' &> /dev/null; do
+  echo "Waiting for ArgoCD Instance patch"
+  sleep 5
+done
 
 until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops -n openshift-gitops &> /dev/null; do
   echo "Waiting for default ArgoCD Instance to start"
   sleep 10
 done
 
-
-
 oc create -f ArgoCD/Infra/ServiceMesh/config.yaml
-
 
 # # {"apiGroups": ["machine.openshift.io"], "resources": ["*"], "verbs":["*"]},
 # 
