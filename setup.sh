@@ -24,8 +24,6 @@ until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops 
   sleep 10
 done
 
-oc patch configmap -n openshift-gitops argocd-cm '{"data":{"node-config.yaml":{"kubeletArguments":{"make-iptables-util-chains":"true"}}}}'
-{"spec":}
 
 
 oc create -f ArgoCD/Infra/ServiceMesh/config.yaml
