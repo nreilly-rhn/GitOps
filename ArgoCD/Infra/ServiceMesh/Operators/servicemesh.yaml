@@ -18,7 +18,6 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
     syncOptions:
     - CreateNamespace=true
 ---
@@ -42,7 +41,6 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
     syncOptions:
     - CreateNamespace=true
 ---
@@ -66,7 +64,6 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
     syncOptions:
     - CreateNamespace=true
 ---
@@ -90,6 +87,5 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
     syncOptions:
     - CreateNamespace=true

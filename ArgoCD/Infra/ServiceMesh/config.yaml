@@ -4,7 +4,7 @@ metadata:
   name: openshift-servicemesh
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "-100"
+    argocd.argoproj.io/sync-wave: "-1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -23,8 +23,6 @@ kind: Application
 metadata:
   name: servicemesh-bundle
   namespace: openshift-gitops
-  annotations:
-    argocd.argoproj.io/sync-wave: "-90"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
