@@ -15,8 +15,3 @@ spec:
   sourceNamespace: openshift-marketplace' |oc create -f -
 
 ```
-# Create the ArgoCD application
-```
-$ oc create -f argocd/applications/OpenShift-ServiceMesh/operator.yaml
-
-```

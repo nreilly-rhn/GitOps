@@ -1,0 +1,104 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: servicemesh-operator
+  namespace: infra
+spec:
+  tasks:
+    - name: clone-repo
+      params:
+        - name: url
+          value: 'https://github.com/nreilly-rhn/GitOps.git'
+        - name: revision
+          value: main
+        - name: submodules
+          value: 'true'
+        - name: depth
+          value: '1'
+        - name: sslVerify
+          value: 'true'
+        - name: subdirectory
+          value: repo
+        - name: deleteExisting
+          value: 'true'
+        - name: verbose
+          value: 'true'
+        - name: gitInitImage
+          value: >-
+            registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:5b36e9d4ddffa4c253c47e444b7d3158bbbd2a3acf3c301389f6c50cbf5e8086
+        - name: userHome
+          value: /tekton/home
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: elasticsearch-operator
+      params:
+        - name: SCRIPT
+          value: >-
+            oc apply -f
+            repo/ArgoCD/Infra/ServiceMesh/Operators/elasticsearch/base/elasticsearch.yaml
+        - name: VERSION
+          value: latest
+      runAfter:
+        - clone-repo
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client-4-10-0
+      workspaces:
+        - name: manifest-dir
+          workspace: workspace
+    - name: jaeger-operator
+      params:
+        - name: SCRIPT
+          value: >-
+            oc apply -f
+            repo/ArgoCD/Infra/ServiceMesh/Operators/jaeger/base/jaeger.yaml
+        - name: VERSION
+          value: latest
+      runAfter:
+        - clone-repo
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client-4-10-0
+      workspaces:
+        - name: manifest-dir
+          workspace: workspace
+    - name: kiali-operator
+      params:
+        - name: SCRIPT
+          value: >-
+            oc apply -f
+            repo/ArgoCD/Infra/ServiceMesh/Operators/kiali/base/kiali.yaml
+        - name: VERSION
+          value: latest
+      runAfter:
+        - clone-repo
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client-4-10-0
+      workspaces:
+        - name: manifest-dir
+          workspace: workspace
+    - name: istio-operator
+      params:
+        - name: SCRIPT
+          value: >-
+            oc apply -f
+            repo/ArgoCD/Infra/ServiceMesh/Operators/servicemesh/base/servicemesh.yaml
+        - name: VERSION
+          value: latest
+      runAfter:
+        - elasticsearch-operator
+        - jaeger-operator
+        - kiali-operator
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client-4-10-0
+      workspaces:
+        - name: manifest-dir
+          workspace: workspace
+  workspaces:
+    - name: workspace

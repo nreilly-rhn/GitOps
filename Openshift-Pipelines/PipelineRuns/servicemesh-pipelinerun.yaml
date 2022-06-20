@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: servicemesh-pipelinerun
+  namespace: infra
+  labels:
+    tekton.dev/pipeline: servicemesh-operator
+spec:
+  pipelineRef:
+    name: servicemesh-operator
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+  workspaces:
+    - name: workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Mi
+          storageClassName: gp2
+          volumeMode: Filesystem

@@ -34,6 +34,12 @@ metadata:
     name: openshift-gitops-argocd-application-controller-maistra
 rules:
 - apiGroups:
+  - 'project.openshift.io'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
   - 'maistra.io'
   resources:
   - '*'

@@ -15,46 +15,20 @@ spec:
   sourceNamespace: openshift-marketplace' |oc create -f -
   echo ""
 fi
-sleep 30
 
-until oc patch argocd -n openshift-gitops openshift-gitops --type merge -p='{"spec": {"resourceCustomizations": "argoproj.io/Application:\n  health.lua: |\n    hs = {}\n    hs.status = \"Progressing\"\n    hs.message = \"\"\n    if obj.status ~= nil then\n      if obj.status.health ~= nil then\n        hs.status = obj.status.health.status\n        if obj.status.health.message ~= nil then\n          hs.message = obj.status.health.message\n        end\n      end\n    end\n    return hs\n" }}' &> /dev/null; do
+until oc patch argocd -n openshift-gitops openshift-gitops --type merge -p='{"spec": {"resourceCustomizations": |\n    "argoproj.io/Application":\n      health.lua: |\n        hs = {}\n        hs.status = "Progressing"\n        hs.message = ""\n        if obj.status ~= nil then\n          if obj.status.health ~= nil then\n            hs.status = obj.status.health.status\n            hs.message = obj.status.health.message\n          end\n        end\n        return hs\n    operators.coreos.com/Subscription:\n      health.lua: |\n        hs = {}\n        if obj.status ~= nil then\n          if obj.status.currentCSV ~= nil and (obj.status.state == "AtLatestKnown" or obj.status.state == "UpgradeAvailable" or obj.status.state == "UpgradePending") then\n            hs.status = "Healthy"\n            hs.message = "Subcription installed"\n            return hs\n          end\n        end\n        hs.status = "Progressing"\n        hs.message = "Waiting for Subscription to complete."\n        return hs\n" }}' &> /dev/null; do
   printf "\rWaiting for ArgoCD Instance patch"
-  sleep 5
+  sleep 2
 done
 
 until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops -n openshift-gitops &> /dev/null; do
   printf "\rWaiting for default ArgoCD Instance to start"
-  sleep 10
+  sleep 2
 done
 
-oc create -f ArgoCD/Infra/ServiceMesh/config.yaml
+#oc create -f ArgoCD/Infra/ServiceMesh/config.yaml
 
 # # {"apiGroups": ["machine.openshift.io"], "resources": ["*"], "verbs":["*"]},
 # 
 # 
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRole
-# metadata:
-#   labels:
-#   name: openshift-gitops-openshift-gitops-argocd-application-controller-miastra
-# rules:
-# - apiGroups:
-#   - 'miastra.io'
-#   resources:
-#   - '*'
-#   verbs:
-#   - '*'
-# 
-# 
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRoleBinding
-# metadata:
-#   name: openshift-gitops-openshift-gitops-argocd-application-controller-miastra
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: ClusterRole
-#   name: openshift-gitops-openshift-gitops-argocd-application-controller-miastra
-# subjects:
-# - kind: ServiceAccount
-#   name: openshift-gitops-argocd-application-controller
-#   namespace: openshift-gitops
+
