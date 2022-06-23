@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: openshift-servicemesh
+  name: openshift-pipelines
   namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  description: Deploy Operators for OpenShift ServiceMesh
+  description: OpenShift Pipelines Operator
   sourceRepos:
   - '*'
   destinations:
@@ -21,16 +21,16 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: servicemesh-bundle
+  name: openshift-pipelines
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
-  project: openshift-servicemesh
+  project: openshift-pipelines
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: ArgoCD/Infra/ServiceMesh/Operators
+    path: ArgoCD/Infra/Openshift-Pipelines/Pipelines
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
