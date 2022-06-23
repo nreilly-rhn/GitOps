@@ -21,7 +21,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-pipelines
+  name: pipelines-operator
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -30,7 +30,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: ArgoCD/Infra/Openshift-Pipelines/Pipelines
+    path: ArgoCD/Infra/Openshift-Pipelines/Operators
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
