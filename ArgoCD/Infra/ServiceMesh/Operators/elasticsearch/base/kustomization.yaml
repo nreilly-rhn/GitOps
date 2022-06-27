@@ -1,3 +1,2 @@
-namespace: openshift-operators-redhat
 resources:
 - elasticsearch.yaml

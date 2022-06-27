@@ -1,3 +1,2 @@
-namespace: openshift-distributed-tracing
 resources:
 - ../base
