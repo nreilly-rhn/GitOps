@@ -2,6 +2,7 @@ apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   name: install-plan-approver-template
+  namespace: openshift-gitops
 objects:
 - kind: Job
   apiVersion: batch/v1
