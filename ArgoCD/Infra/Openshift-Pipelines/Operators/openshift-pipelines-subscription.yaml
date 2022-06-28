@@ -66,6 +66,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: installplan-approver
+    namespace: openshift-gitops
 ---
 kind: Job
 apiVersion: batch/v1
