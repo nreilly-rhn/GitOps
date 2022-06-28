@@ -1,8 +1,6 @@
 kind: Subscription
 apiVersion: operators.coreos.com/v1alpha1
 metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
   labels:
     operators.coreos.com/openshift-pipelines-operator-rh.openshift-operators: ''
   name: openshift-pipelines-operator-rh
@@ -39,6 +37,8 @@ spec:
 kind: Job
 apiVersion: batch/v1
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: install-plan-approver
   namespace: openshift-gitops
 spec:
