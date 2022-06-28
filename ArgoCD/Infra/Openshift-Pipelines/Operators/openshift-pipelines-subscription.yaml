@@ -37,7 +37,7 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: installplan-approver-job
+  name: installplan-approver
   namespace: openshift-gitops
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -65,7 +65,7 @@ roleRef:
   name: installplan-approver
 subjects:
   - kind: ServiceAccount
-    name: installplan-approver-job
+    name: installplan-approver
 ---
 kind: Job
 apiVersion: batch/v1
@@ -82,8 +82,8 @@ spec:
     spec:
       restartPolicy: Never
       schedulerName: default-scheduler
-      serviceAccount: installplan-approver-job
-      serviceAccountName: installplan-approver-job
+      serviceAccount: installplan-approver
+      serviceAccountName: installplan-approver
       containers:
         - resources:
           name: install-plan-approver
