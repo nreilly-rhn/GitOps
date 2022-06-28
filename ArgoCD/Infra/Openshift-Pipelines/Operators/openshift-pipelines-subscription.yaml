@@ -53,13 +53,14 @@ spec:
         - resources:
           name: install-plan-approver
           command:
-            - oc
+            - /bin/sh
           imagePullPolicy: IfNotPresent
           image: >-
             openshift4/ose-cli
           args:
+            - '-c'
             - >-
-              patch installplan $(oc get ip -n openshift-operators -o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
+              oc patch installplan $(oc get ip -n openshift-operators -o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
 #---
 #kind: ClusterRoleBinding
 #apiVersion: rbac.authorization.k8s.io/v1
