@@ -61,7 +61,7 @@ metadata:
   name: installplan-approvers
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: installplan-approver
 subjects:
   - kind: ServiceAccount
