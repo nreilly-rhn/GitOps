@@ -39,7 +39,7 @@ spec:
 kind: Job
 apiVersion: batch/v1
 metadata:
-  name: installPlanApprover
+  name: install-plan-approver
   namespace: openshift-gitops
 spec:
   parallelism: 1
@@ -51,7 +51,7 @@ spec:
       schedulerName: default-scheduler
       containers:
         - resources:
-          name: installPlanApprover
+          name: install-plan-approver
           command:
             - oc
           imagePullPolicy: IfNotPresent
