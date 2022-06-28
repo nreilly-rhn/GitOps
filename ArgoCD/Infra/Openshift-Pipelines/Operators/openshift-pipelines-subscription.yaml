@@ -65,7 +65,7 @@ spec:
             openshift4/ose-cli
           args:
             - >-
-              patch installplan $(oc get ip -n my-project-o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
+              patch installplan $(oc get ip -n openshift-operators -o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
       serviceAccount: infra-admin
       serviceAccountName: infra-admin
 ---
