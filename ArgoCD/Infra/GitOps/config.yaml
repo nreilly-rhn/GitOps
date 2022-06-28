@@ -24,7 +24,7 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
-  project: openshift-gitops
+  project: gitops
   destination:
     server: https://kubernetes.default.svc
   source:
