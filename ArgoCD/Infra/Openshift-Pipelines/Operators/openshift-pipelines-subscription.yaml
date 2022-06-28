@@ -13,40 +13,34 @@ spec:
   name: openshift-pipelines-operator-rh
   source: redhat-operators
   sourceNamespace: openshift-marketplace
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  labels:
-    kubernetes.io/metadata.name: infra
-  name: infra
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: infra-admin
-  namespace: infra
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-  name: cluster-admin-pipeine
-subjects:
-  - kind: ServiceAccount
-    name: infra-admin
-    namespace: infra
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
+#---
+#kind: Namespace
+#apiVersion: v1
+#metadata:
+#  labels:
+#    kubernetes.io/metadata.name: infra
+#  name: infra
+#---
+#kind: ClusterRoleBinding
+#apiVersion: rbac.authorization.k8s.io/v1
+#metadata:
+#  annotations:
+#    argocd.argoproj.io/sync-wave: "2"
+#  name: cluster-admin-infra
+#subjects:
+#  - kind: ServiceAccount
+#    name: infra-admin
+#    namespace: infra
+#roleRef:
+#  apiGroup: rbac.authorization.k8s.io
+#  kind: ClusterRole
+#  name: cluster-admin
 ---
 kind: Job
 apiVersion: batch/v1
 metadata:
   name: installPlanApprover
-  namespace: default
+  namespace: openshift-gitops
 spec:
   parallelism: 1
   completions: 1
@@ -66,20 +60,18 @@ spec:
           args:
             - >-
               patch installplan $(oc get ip -n openshift-operators -o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
-      serviceAccount: infra-admin
-      serviceAccountName: infra-admin
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-  name: cluster-admin-pipeine
-subjects:
-  - kind: ServiceAccount
-    name: pipeline
-    namespace: infra
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
+#---
+#kind: ClusterRoleBinding
+#apiVersion: rbac.authorization.k8s.io/v1
+#metadata:
+#  annotations:
+#    argocd.argoproj.io/sync-wave: "2"
+#  name: cluster-admin-pipeine
+#subjects:
+#  - kind: ServiceAccount
+#    name: pipeline
+#    namespace: infra
+#roleRef:
+#  apiGroup: rbac.authorization.k8s.io
+#  kind: ClusterRole
+#  name: cluster-admin
