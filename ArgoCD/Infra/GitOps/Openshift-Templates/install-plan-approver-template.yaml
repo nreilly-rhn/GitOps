@@ -9,7 +9,7 @@ objects:
   metadata:
     annotations:
       argocd.argoproj.io/sync-wave: "1"
-    name: install-plan-approver
+    generateName: ${OPERATOR_LABEL}-approver-
     namespace: openshift-gitops
   spec:
     parallelism: 1
