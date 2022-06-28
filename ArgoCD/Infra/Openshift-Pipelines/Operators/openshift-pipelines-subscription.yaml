@@ -1,5 +1,5 @@
-apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
+apiVersion: operators.coreos.com/v1alpha1
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -13,6 +13,31 @@ spec:
   name: openshift-pipelines-operator-rh
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+---
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: installPlanApprover
+  namespace: openshift-operators
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+    spec:
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      containers:
+        - resources:
+          name: installPlanApprover
+          command:
+            - oc
+          imagePullPolicy: IfNotPresent
+          image: >-
+            openshift4/ose-cli
+          args:
+            - >-
+              patch installplan $(oc get ip -n my-project-o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
