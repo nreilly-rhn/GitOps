@@ -1,0 +1,37 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: install-plan-approver-template
+objects:
+- kind: Job
+  apiVersion: batch/v1
+  metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "1"
+    name: install-plan-approver
+    namespace: openshift-gitops
+  spec:
+    parallelism: 1
+    completions: 1
+    template:
+      metadata:
+      spec:
+        restartPolicy: Never
+        schedulerName: default-scheduler
+        serviceAccount: installplan-approver
+        serviceAccountName: installplan-approver
+        containers:
+          - resources:
+            name: install-plan-approver
+            command:
+              - /bin/sh
+            imagePullPolicy: IfNotPresent
+            image: >-
+              openshift4/ose-cli
+            args:
+              - '-c'
+              - >-
+                oc patch installplan $(oc get ip -n openshift-operators -l operators.coreos.com/${OPERATOR_LABEL}="" -o=jsonpath='{.items[?(@.spec.approved==false)].metadata.name}') -n openshift-operators --type merge --patch '{"spec":{"approved":true}}'
+parameters:
+- description: Label assigned to Operator
+  name: OPERATOR_LABEL
