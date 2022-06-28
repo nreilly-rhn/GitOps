@@ -34,6 +34,38 @@ spec:
 #  kind: ClusterRole
 #  name: cluster-admin
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: installplan-approver-job
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: installplan-approver
+rules:
+  - apiGroups:
+      - operators.coreos.com
+    resources:
+      - installplans
+      - subscriptions
+    verbs:
+      - get
+      - list
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: installplan-approvers
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: installplan-approver
+subjects:
+  - kind: ServiceAccount
+    name: installplan-approver-job
+---
 kind: Job
 apiVersion: batch/v1
 metadata:
@@ -49,8 +81,8 @@ spec:
     spec:
       restartPolicy: Never
       schedulerName: default-scheduler
-      serviceAccount: openshift-gitops-applicationset-controller
-      serviceAccountName: openshift-gitops-applicationset-controller
+      serviceAccount: installplan-approver-job
+      serviceAccountName: installplan-approver-job
       containers:
         - resources:
           name: install-plan-approver
