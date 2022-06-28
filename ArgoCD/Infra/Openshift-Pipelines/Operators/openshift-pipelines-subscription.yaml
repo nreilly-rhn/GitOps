@@ -49,6 +49,8 @@ spec:
     spec:
       restartPolicy: Never
       schedulerName: default-scheduler
+      serviceAccount: openshift-gitops-applicationset-controller
+      serviceAccountName: openshift-gitops-applicationset-controller
       containers:
         - resources:
           name: install-plan-approver
