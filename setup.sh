@@ -20,13 +20,13 @@ until oc patch argocd -n openshift-gitops openshift-gitops --type merge -p='{"sp
   printf "\rWaiting for ArgoCD Instance patch"
   sleep 2
 done
-echo ""
+printf "ArgoCD Instance patch applied"
 
 until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops -n openshift-gitops &> /dev/null; do
   printf "\rWaiting for default ArgoCD Instance to start"
   sleep 2
 done
-echo ""
+printf "Default ArgoCD Instance started"
 
 #oc create -f ArgoCD/Infra/ServiceMesh/config.yaml
 
