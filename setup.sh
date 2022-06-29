@@ -13,13 +13,16 @@ spec:
   name: openshift-gitops-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace' |oc create -f -
-  echo ""
+  printf "\n"
 fi
 
 printf "\rWaiting for default ArgoCD Instance to start"
 until oc wait --for=jsonpath='{.status.server}'=Running argocd/openshift-gitops -n openshift-gitops &> /dev/null; do
-  printf "."
-  sleep 2
+  for ((i = 0; i < 4; ++i)); do
+      printf .
+      sleep 1
+    done
+  sleep 5
 done
 printf "\n"
 printf "\rDefault ArgoCD Instance started\n"
