@@ -41,7 +41,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: service-accounts
+  name: bootstrap
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io
