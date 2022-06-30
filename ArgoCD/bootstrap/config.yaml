@@ -19,7 +19,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: templates
+  name: service-accounts
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -28,7 +28,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: ArgoCD/Infra/GitOps/Openshift-Templates
+    path: ArgoCD/bootstrap/Service-Accounts
     repoURL: https://github.com/nreilly-rhn/GitOps
     targetRevision: main
   syncPolicy:
